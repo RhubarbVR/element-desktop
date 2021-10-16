@@ -116,7 +116,7 @@ if (userDataPathInProtocol) {
         newUserDataPath += '-' + argv['profile'];
     }
     const newUserDataPathExists = isRealUserDataDir(newUserDataPath);
-    let oldUserDataPath = path.join(app.getPath('appData'), app.getName().replace('Element', 'Riot'));
+    let oldUserDataPath = path.join(app.getPath('appData'), app.getName().replace('RhubarbVR', 'Riot'));
     if (argv['profile']) {
         oldUserDataPath += '-' + argv['profile'];
     }
@@ -206,9 +206,9 @@ async function setupGlobals() {
         if (e instanceof SyntaxError) {
             dialog.showMessageBox({
                 type: "error",
-                title: `Your ${vectorConfig.brand || 'Element'} is misconfigured`,
-                message: `Your custom ${vectorConfig.brand || 'Element'} configuration contains invalid JSON. ` +
-                         `Please correct the problem and reopen ${vectorConfig.brand || 'Element'}.`,
+                title: `Your ${vectorConfig.brand || 'RhubarbVR'} is misconfigured`,
+                message: `Your custom ${vectorConfig.brand || 'RhubarbVR'} configuration contains invalid JSON. ` +
+                         `Please correct the problem and reopen ${vectorConfig.brand || 'RhubarbVR'}.`,
                 detail: e.message || "",
             });
         }
@@ -222,12 +222,12 @@ async function setupGlobals() {
     iconPath = path.join(resPath, "img", iconFile);
     trayConfig = {
         icon_path: iconPath,
-        brand: vectorConfig.brand || 'Element',
+        brand: vectorConfig.brand || 'RhubarbVR',
     };
 
     // launcher
     launcher = new AutoLaunch({
-        name: vectorConfig.brand || 'Element',
+        name: vectorConfig.brand || 'RhubarbVR',
         isHidden: true,
         mac: {
             useLaunchAgent: true,
@@ -237,8 +237,8 @@ async function setupGlobals() {
 
 async function moveAutoLauncher() {
     // Look for an auto-launcher under 'Riot' and if we find one, port it's
-    // enabled/disbaledp-ness over to the new 'Element' launcher
-    if (!vectorConfig.brand || vectorConfig.brand === 'Element') {
+    // enabled/disbaledp-ness over to the new 'RhubarbVR' launcher
+    if (!vectorConfig.brand || vectorConfig.brand === 'RhubarbVR') {
         const oldLauncher = new AutoLaunch({
             name: 'Riot',
             isHidden: true,
@@ -282,7 +282,7 @@ const warnBeforeExit = (event, input) => {
     if (shouldWarnBeforeExit && exitShortcutPressed) {
         const shouldCancelCloseRequest = dialog.showMessageBoxSync(mainWindow, {
             type: "question",
-            buttons: [_t("Cancel"), _t("Close Element")],
+            buttons: [_t("Cancel"), _t("Close RhubarbVR")],
             message: _t("Are you sure you want to quit?"),
             defaultId: 1,
             cancelId: 0,
@@ -1044,4 +1044,4 @@ app.on('second-instance', (ev, commandLine, workingDirectory) => {
 // installer uses for the shortcut icon.
 // This makes notifications work on windows 8.1 (and is
 // a noop on other platforms).
-app.setAppUserModelId('com.squirrel.element-desktop.Element');
+app.setAppUserModelId('com.squirrel.rhubarb.desktop');

@@ -1,13 +1,13 @@
 {
   "name": "element-desktop",
-  "productName": "Element",
+  "productName": "RhubarbVR",
   "main": "lib/electron-main.js",
   "version": "1.9.2",
   "description": "A feature-rich client for Matrix.org",
-  "author": "Element",
+  "author": "Element,RhubarbVR",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vector-im/element-desktop"
+    "url": "https://github.com/RhubarbVR/element-desktop"
   },
   "license": "Apache-2.0",
   "files": [],

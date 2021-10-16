@@ -130,7 +130,7 @@ export function buildMenuTemplate(): Menu {
             role: 'help',
             submenu: [
                 {
-                    label: _t('Element Help'),
+                    label: _t('RhubarbVR Help'),
                     click() { shell.openExternal('https://element.io/help'); },
                 },
             ],
