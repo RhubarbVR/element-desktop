@@ -102,7 +102,7 @@
     "linux": {
       "target": "deb",
       "category": "Network;InstantMessaging;Chat",
-      "maintainer": "support@element.io",
+      "maintainer": "Faolan@rhubarbvr.net",
       "desktop": {
         "StartupWMClass": "element"
       }
@@ -124,9 +124,9 @@
     "afterSign": "scripts/electron_afterSign",
     "protocols": [
       {
-        "name": "element",
+        "name": "RhubarbVR",
         "schemes": [
-          "element"
+          "RhubarbVR"
         ]
       }
     ]
