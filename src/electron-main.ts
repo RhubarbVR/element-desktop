@@ -28,7 +28,6 @@ import fs, { promises as afs } from "fs";
 import crypto from "crypto";
 import { URL } from "url";
 import minimist from "minimist";
-
 import * as tray from "./tray";
 import { buildMenuTemplate } from './vectormenu';
 import webContentsHandler from './webcontents-handler';
@@ -926,11 +925,10 @@ app.on('ready', async () => {
     mainWindow = global.mainWindow = new BrowserWindow({
         // https://www.electronjs.org/docs/faq#the-font-looks-blurry-what-is-this-and-what-can-i-do
         backgroundColor: '#fff',
-
         icon: iconPath,
         show: false,
         autoHideMenuBar: store.get('autoHideMenuBar', true),
-
+        titleBarStyle: "hidden",
         x: mainWindowState.x,
         y: mainWindowState.y,
         width: mainWindowState.width,
@@ -954,7 +952,7 @@ app.on('ready', async () => {
 
     mainWindow.once('ready-to-show', () => {
         mainWindowState.manage(mainWindow);
-
+        require('electron-react-titlebar/main').initialize();
         if (!argv['hidden']) {
             mainWindow.show();
         } else {
@@ -962,7 +960,15 @@ app.on('ready', async () => {
             mainWindow.hide();
         }
     });
-
+      
+        const replaceText = (selector, text) => {
+          const element = document.getElementById(selector)
+          if (element) element.innerText = text
+        }
+      
+        for (const type of ['chrome', 'node', 'electron']) {
+          replaceText(`${type}-version`, process.versions[type])
+        }
     mainWindow.webContents.on('before-input-event', warnBeforeExit);
 
     mainWindow.on('closed', () => {

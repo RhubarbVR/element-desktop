@@ -16,9 +16,6 @@ limitations under the License.
 
 import { ipcRenderer, desktopCapturer, contextBridge, IpcRendererEvent, SourcesOptions } from 'electron';
 
-// Expose only expected IPC wrapper APIs to the renderer process to avoid
-// handing out generalised messaging access.
-
 const CHANNELS = [
     "app_onAction",
     "before-quit",
