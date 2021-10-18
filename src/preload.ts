@@ -16,6 +16,68 @@ limitations under the License.
 
 import { ipcRenderer, desktopCapturer, contextBridge, IpcRendererEvent, SourcesOptions } from 'electron';
 
+// CSS as thing
+var styles = `
+  #etitlebar {
+    -webkit-app-region: drag;
+    display: block;
+    position: fixed;
+    height: 30px;
+    width: calc(100% - 2px);
+  }
+  #etitlebar {
+    padding: 4px;
+  }
+  #etitlebar #drag-region {
+    width: 100%;
+    height: 100%;
+    -webkit-app-region: drag;
+  }
+  #etitlebar {
+    color: #FFF;
+  }
+  #etitlebar #edrag-region {
+    display: grid;
+    grid-template-columns: auto 138px;
+  }
+  #ewindow-title {
+    grid-column: 1;
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+    overflow: hidden;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 12px;
+  }
+`;
+
+function BuildDiv(attachTo:HTMLElement,id:string):HTMLDivElement{
+    var e = document.createElement('div');
+    e.id = id;
+    attachTo.appendChild(e);
+    return e;
+}
+
+window.addEventListener('load',()=>{
+    
+var styleSheet = document.createElement("style")
+styleSheet.type = "text/css"
+styleSheet.innerText = styles
+document.head.appendChild(styleSheet);
+
+    var e = document.createElement('header');
+    e.id = 'etitlebar';
+    document.body.insertAdjacentElement('afterbegin',e);
+    var dr = BuildDiv(e,"edrag-region");
+    var title = BuildDiv(dr,"ewindow-title")
+    var e = document.createElement('span');
+    title.appendChild(e);
+    e.innerHTML = "Rhubarb VR";
+    document.getElementById('matrixchat').style.height = "calc(100% - 30px)";
+    document.getElementById('matrixchat').style.paddingTop = "30px";
+    //document.
+});
+
 const CHANNELS = [
     "app_onAction",
     "before-quit",

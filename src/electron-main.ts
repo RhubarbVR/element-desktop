@@ -924,11 +924,15 @@ app.on('ready', async () => {
     const preloadScript = path.normalize(`${__dirname}/preload.js`);
     mainWindow = global.mainWindow = new BrowserWindow({
         // https://www.electronjs.org/docs/faq#the-font-looks-blurry-what-is-this-and-what-can-i-do
-        backgroundColor: '#fff',
+        backgroundColor: '#15191E',
         icon: iconPath,
         show: false,
         autoHideMenuBar: store.get('autoHideMenuBar', true),
-        titleBarStyle: "hidden",
+        titleBarStyle: 'hidden',
+        titleBarOverlay: {
+            color: '#15191E',
+            symbolColor: '#8E99A4'
+          },
         x: mainWindowState.x,
         y: mainWindowState.y,
         width: mainWindowState.width,
@@ -952,7 +956,6 @@ app.on('ready', async () => {
 
     mainWindow.once('ready-to-show', () => {
         mainWindowState.manage(mainWindow);
-        require('electron-react-titlebar/main').initialize();
         if (!argv['hidden']) {
             mainWindow.show();
         } else {
