@@ -58,6 +58,37 @@ function BuildDiv(attachTo:HTMLElement,id:string):HTMLDivElement{
     return e;
 }
 
+function buildRhubarbUI(div:HTMLDivElement)
+{
+  div.innerHTML="helloThere";
+}
+
+async function loop() {
+  try {
+    var elementes = document.getElementsByClassName('mx_DesktopBuildsNotice');
+    for (let index = 0; index < elementes.length; index++) {
+     var e:HTMLElement = <HTMLScriptElement>elementes.item(index);
+     e.style.visibility = 'hidden';
+    }
+  } catch (error) {
+    
+  }
+  if(!document.getElementById('rhuAdded'))
+  {
+    console.log("NOt added");
+    var addto = document.getElementsByClassName("mx_SpacePanel").item(0);
+    if(addto)
+    {
+      var rhuAdded = document.createElement('div');
+      rhuAdded.id = 'rhuAdded';
+      var addbefore = addto.lastChild;
+      addto.insertBefore(rhuAdded,addbefore);
+      buildRhubarbUI(rhuAdded);
+    }
+  }
+  setTimeout(loop,10);
+}
+
 window.addEventListener('load',()=>{
     
 var styleSheet = document.createElement("style")
@@ -75,7 +106,7 @@ document.head.appendChild(styleSheet);
     e.innerHTML = "Rhubarb VR";
     document.getElementById('matrixchat').style.height = "calc(100% - 30px)";
     document.getElementById('matrixchat').style.paddingTop = "30px";
-    //document.
+    loop();
 });
 
 const CHANNELS = [

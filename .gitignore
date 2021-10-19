@@ -1,5 +1,6 @@
 /dist
 /lib
+/engine
 /webapp
 /webapp.asar
 /packages

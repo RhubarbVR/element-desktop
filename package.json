@@ -1,5 +1,5 @@
 {
-  "name": "element-desktop",
+  "name": "rhubarb-client",
   "productName": "RhubarbVR",
   "main": "lib/electron-main.js",
   "version": "1.9.2",
@@ -83,7 +83,7 @@
     "keytar": "^5.6.0"
   },
   "build": {
-    "appId": "im.riot.app",
+    "appId": "im.rhu.app",
     "electronVersion": "13.5.1",
     "files": [
       "package.json",
@@ -98,14 +98,15 @@
         "from": "res/img",
         "to": "img"
       },
-      "webapp.asar"
+      "webapp",
+      "engine"
     ],
     "linux": {
       "target": "deb",
       "category": "Network;InstantMessaging;Chat",
       "maintainer": "Faolan@rhubarbvr.net",
       "desktop": {
-        "StartupWMClass": "element"
+        "StartupWMClass": "rhubarb"
       }
     },
     "mac": {
