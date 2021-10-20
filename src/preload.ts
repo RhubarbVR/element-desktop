@@ -60,7 +60,8 @@ function BuildDiv(attachTo:HTMLElement,id:string):HTMLDivElement{
 
 function buildRhubarbUI(div:HTMLDivElement)
 {
-  div.innerHTML="helloThere";
+  var playbutton = BuildDiv(div,'RhubarbPlayButton');
+  playbutton.innerHTML = "trains";
 }
 
 async function loop() {
