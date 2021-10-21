@@ -18,6 +18,43 @@ import { ipcRenderer, desktopCapturer, contextBridge, IpcRendererEvent, SourcesO
 
 // CSS as thing
 var styles = `
+
+.arrowe {
+  cursor: pointer;
+  position: absolute;
+  bottom: 90px;
+  left: 20px;
+  width: 1vmin;
+  height: 1vmin;
+  background: transparent;
+  border-top: 1vmin solid #A9B2BC;
+  border-right: 1vmin solid #A9B2BC;
+  box-shadow: 0 0 0 lightgray;
+  transition: all 200ms ease;
+}
+.arrowe.left {
+  left: 0;
+  transform: translate3d(0, 10px, 0) rotate(-135deg);
+}
+.arrowe.right {
+  right: 0;
+  transform: translate3d(0, 10px, 0) rotate(45deg);
+}
+.arrowe:hover {
+  border-color: #11FF00;
+  box-shadow: 0.5vmin -0.5vmin 0 #A9B2BC;
+}
+.arrowe:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, 5px) rotate(45deg);
+  width: 200%;
+  height: 200%;
+}
+
+
   #etitlebar {
     -webkit-app-region: drag;
     display: block;
@@ -51,6 +88,26 @@ var styles = `
   }
 `;
 
+var tooltip:HTMLDivElement;
+
+function BuildToolTip(text:string,x:number,y:number):HTMLDivElement
+{
+  var re = document.createElement('div');
+  document.body.appendChild(re);
+  re.className = "mx_Tooltip_wrapper";
+  var e = document.createElement('div');
+  e.className = "mx_Tooltip mx_AccessibleTooltipButton_tooltip mx_Tooltip_visible";
+  e.style.display = "block";
+  e.style.left = x + "px";
+  e.style.bottom = y + "px";
+  re.appendChild(e);
+  var le = document.createElement('div');
+  le.className = "mx_Tooltip_chevron";
+  e.appendChild(le);
+  e.insertAdjacentText('beforeend',text);
+  return re;
+}
+
 function BuildDiv(attachTo:HTMLElement,id:string):HTMLDivElement{
     var e = document.createElement('div');
     e.id = id;
@@ -60,8 +117,24 @@ function BuildDiv(attachTo:HTMLElement,id:string):HTMLDivElement{
 
 function buildRhubarbUI(div:HTMLDivElement)
 {
-  var playbutton = BuildDiv(div,'RhubarbPlayButton');
-  playbutton.innerHTML = "trains";
+  div = BuildDiv(div,"eggplaybutton");
+  div.className = "arrowe right";
+  div.addEventListener('mouseenter',()=>{
+    if(tooltip){
+      tooltip.remove();
+      tooltip = null;
+    }
+    tooltip = BuildToolTip("Play RhubarbVR",60,70);
+  });
+  div.addEventListener('mouseleave',()=>{
+    if(tooltip){
+      tooltip.remove();
+      tooltip = null;
+    }
+  });
+  div.addEventListener('click',()=>{
+   console.log("clicked");
+  });
 }
 
 async function loop() {
