@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { ipcRenderer, desktopCapturer, contextBridge, IpcRendererEvent, SourcesOptions } from 'electron';
+import { ipcRenderer, desktopCapturer, contextBridge, IpcRendererEvent, SourcesOptions, dialog } from 'electron';
 
 // CSS as thing
 var styles = `
@@ -114,7 +114,31 @@ function BuildDiv(attachTo:HTMLElement,id:string):HTMLDivElement{
     attachTo.appendChild(e);
     return e;
 }
-
+function LoadRhubarbLaunchScreen()
+{
+  console.log("BuiltLanchScreen");
+  var Containor = BuildDivWithClass(document.body,"mx_Dialog_StaticContainer","");
+  var wrapper = BuildDivWithClass(Containor,"LanchScreenWrapper","mx_Dialog_wrapper mx_Dialog_staticWrapper");
+  var Dialog = BuildDivWithClass(wrapper,"LanchScreenDialog","mx_Dialog");
+  var Dialog_headerWraper = BuildDivWithClass(Dialog,"LanchScreenHeaderDialogheaderwrapper","mx_UserSettingsDialog mx_Dialog_fixedWidth");
+  var Dialog_header = BuildDivWithClass(Dialog_headerWraper,"LanchScreenHeader","mx_Dialog_header mx_Dialog_headerWithCancel");
+  var Dialog_header_text = BuildDivWithClass(Dialog_header,"LanchScreenHeaderTitle","mx_Dialog_title");
+  Dialog_header_text.innerText = "Lanch RhubarbVR";
+  var Cancle = BuildDivWithClass(Dialog_header,"LanchScreenCancle","mx_AccessibleButton mx_Dialog_cancelButton");
+  var Dialog_header_BackGround = BuildDivWithClass(wrapper,"LanchScreenBackground","mx_Dialog_background mx_Dialog_staticBackground");
+  Cancle.addEventListener("click",()=>{
+    if(Containor){
+    Containor.remove();
+    Containor = null;
+    }
+  });
+}
+function BuildDivWithClass(attachTo:HTMLElement,id:string,classname:string):HTMLDivElement
+{
+  var a = BuildDiv(attachTo,id)
+  a.className = classname;
+  return a;
+}
 function buildRhubarbUI(div:HTMLDivElement)
 {
   div = BuildDiv(div,"eggplaybutton");
@@ -133,7 +157,7 @@ function buildRhubarbUI(div:HTMLDivElement)
     }
   });
   div.addEventListener('click',()=>{
-   console.log("clicked");
+    LoadRhubarbLaunchScreen();
   });
 }
 
