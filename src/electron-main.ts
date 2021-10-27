@@ -34,6 +34,7 @@ import webContentsHandler from './webcontents-handler';
 import * as updater from './updater';
 import { getProfileFromDeeplink, protocolInit, recordSSOSession } from './protocol';
 import { _t, AppLocalization } from './language-helper';
+var exec = require('child_process').execFile;
 
 const argv = minimist(process.argv, {
     alias: { help: "h" },
@@ -536,6 +537,21 @@ async function getOrCreatePassphrase(key) {
     }
 }
 
+ipcMain.on('startRhubarb', async function(ev, payload) {
+    if (!mainWindow) return;
+        var fileName = (process.platform === "win32")? "RhubarbVR.exe":"RhubarbVR";
+        let promise = new Promise((resolve, reject) => {
+            exec(fileName, ["-token",payload.token,"-o" ,"Screen"], { cwd: "./engine" }, (err, data) => {
+                if (err) reject(err);
+                else resolve(data);
+            });
+    
+        });
+        mainWindow.hide();
+        await promise;
+        mainWindow.show();
+});
+
 ipcMain.on('seshat', async function(ev, payload) {
     if (!mainWindow) return;
 
@@ -941,7 +957,7 @@ app.on('ready', async () => {
             preload: preloadScript,
             nodeIntegration: false,
             //sandbox: true, // We enable sandboxing from app.enableSandbox() above
-            contextIsolation: true,
+            contextIsolation: false,
             webgl: false,
         },
     });
@@ -977,7 +993,7 @@ app.on('ready', async () => {
     mainWindow.on('closed', () => {
         mainWindow = global.mainWindow = null;
     });
-    mainWindow.on('close', async (e) => {
+    mainWindow.on('close',  async (e) => {
         // If we are not quitting and have a tray icon then minimize to tray
         if (!global.appQuitting && (tray.hasTray() || process.platform === 'darwin')) {
             // On Mac, closing the window just hides it

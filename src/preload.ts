@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
 import { ipcRenderer, desktopCapturer, contextBridge, IpcRendererEvent, SourcesOptions, dialog } from 'electron';
 
 // CSS as thing
@@ -31,6 +30,9 @@ var styles = `
   border-right: 1vmin solid #A9B2BC;
   box-shadow: 0 0 0 lightgray;
   transition: all 200ms ease;
+  min-width: 10px;
+  min-height: 10px;
+
 }
 .arrowe.left {
   left: 0;
@@ -88,6 +90,11 @@ var styles = `
   }
 `;
 
+function GetToken():string{
+  return globalThis.matPeg.get().getAccessToken();
+}
+
+
 var tooltip:HTMLDivElement;
 
 function BuildToolTip(text:string,x:number,y:number):HTMLDivElement
@@ -116,7 +123,7 @@ function BuildDiv(attachTo:HTMLElement,id:string):HTMLDivElement{
 }
 function LoadRhubarbLaunchScreen()
 {
-  console.log("BuiltLanchScreen");
+
   var Containor = BuildDivWithClass(document.body,"mx_Dialog_StaticContainer","");
   var wrapper = BuildDivWithClass(Containor,"LanchScreenWrapper","mx_Dialog_wrapper mx_Dialog_staticWrapper");
   var Dialog = BuildDivWithClass(wrapper,"LanchScreenDialog","mx_Dialog");
@@ -126,6 +133,8 @@ function LoadRhubarbLaunchScreen()
   Dialog_header_text.innerText = "Lanch RhubarbVR";
   var Cancle = BuildDivWithClass(Dialog_header,"LanchScreenCancle","mx_AccessibleButton mx_Dialog_cancelButton");
   var Dialog_header_BackGround = BuildDivWithClass(wrapper,"LanchScreenBackground","mx_Dialog_background mx_Dialog_staticBackground");
+  var content = BuildDiv(Dialog,"Content");  
+  
   Cancle.addEventListener("click",()=>{
     if(Containor){
     Containor.remove();
@@ -157,7 +166,8 @@ function buildRhubarbUI(div:HTMLDivElement)
     }
   });
   div.addEventListener('click',()=>{
-    LoadRhubarbLaunchScreen();
+    console.log("Starting RhubarbVR");
+    ipcRenderer.send("startRhubarb",{token:GetToken()})
   });
 }
 
