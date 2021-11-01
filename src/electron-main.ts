@@ -75,6 +75,7 @@ try {
 // Things we need throughout the file but need to be created
 // async to are initialised in setupGlobals()
 let asarPath;
+let enginePath;
 let resPath;
 let vectorConfig;
 let iconPath;
@@ -164,6 +165,11 @@ async function setupGlobals() {
         '../webapp',
         // from a packaged application
         '../../webapp',
+    ]);
+
+    enginePath = await tryPaths("engine", __dirname, [
+        '../engine',
+        '../../engine'
     ]);
 
     // we assume the resources path is in the same place as the asar
@@ -541,7 +547,7 @@ ipcMain.on('startRhubarb', async function(ev, payload) {
     if (!mainWindow) return;
         var fileName = (process.platform === "win32")? "RhubarbVR.exe":"RhubarbVR";
         let promise = new Promise((resolve, reject) => {
-            exec(fileName, ["-token",payload.token,"-o" ,"Screen"], { cwd: "./engine" }, (err, data) => {
+            exec(fileName, ["-token",payload.token,"-o" ,"Screen"], { cwd: enginePath }, (err, data) => {
                 if (err) reject(err);
                 else resolve(data);
             });
@@ -979,15 +985,18 @@ app.on('ready', async () => {
             mainWindow.hide();
         }
     });
-      
         const replaceText = (selector, text) => {
+            try{
           const element = document.getElementById(selector)
           if (element) element.innerText = text
+            }catch
+            {}
         }
       
-        for (const type of ['chrome', 'node', 'electron']) {
+        for (const type of ['chrome', 'node', 'electron','rhubarbvr']) {
           replaceText(`${type}-version`, process.versions[type])
         }
+    
     mainWindow.webContents.on('before-input-event', warnBeforeExit);
 
     mainWindow.on('closed', () => {
